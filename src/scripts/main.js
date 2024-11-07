@@ -15,8 +15,22 @@ function sortList(listContainer) {
   listElements.forEach((item) => listContainer.appendChild(item));
 }
 
+function getEmployees(listContainer) {
+  return Array.from(listContainer.children).map((item) => ({
+    name: item.textContent.trim(),
+    position: item.dataset.position,
+    salary: parseSalary(item.dataset.salary),
+    age: Number(item.dataset.age),
+  }));
+}
+
 function parseSalary(salaryStr) {
-  return Number(salaryStr.replace(/[^0-9.-]+/g, ''));
+  const sanitizedSalary = salaryStr.replace(/[^0-9.-]+/g, '');
+  const salary = Number(sanitizedSalary);
+
+  return isNaN(salary) ? 0 : salary;
 }
 
 sortList(employeeList);
+
+getEmployees(employeeList);
